@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Critical Analysis Essay Builder</title>
+    <style>
+        :root { --primary: #2c3e50; --accent: #3498db; --bg: #f0f2f5; --text: #333; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: var(--text); padding: 40px 20px; line-height: 1.6; }
+        .container { max-width: 1000px; margin: auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: var(--primary); margin-bottom: 10px; }
+        p.subtitle { text-align: center; color: #666; margin-bottom: 30px; }
+        
+        .section-wrapper { display: flex; gap: 20px; margin-bottom: 25px; align-items: flex-start; }
+        .input-area { flex: 2; }
+        .guidance { flex: 1; background: #eef7ff; padding: 15px; border-left: 4px solid var(--accent); border-radius: 4px; font-size: 0.9rem; color: #444; }
+        
+        label { font-weight: bold; display: block; margin-bottom: 8px; color: var(--primary); font-size: 1.1rem; }
+        
+        /* Toolbar Styles */
+        .toolbar { 
+            background: #f8f9fa; padding: 5px; border: 1px solid #ccc; 
+            border-bottom: none; border-radius: 8px 8px 0 0; 
+            display: flex; gap: 5px; align-items: center; flex-wrap: wrap;
+        }
+        .toolbar button, .toolbar select { 
+            background: white; border: 1px solid #bbb; padding: 3px 8px; 
+            cursor: pointer; border-radius: 4px; font-size: 0.85rem;
+        }
+        .toolbar button:hover { background: #e9ecef; }
+
+        /* Editable area replacing textarea */
+        .essay-part { 
+            width: 100%; min-height: 150px; padding: 15px; border: 1px solid #ccc; 
+            border-radius: 0 0 8px 8px; font-size: 16px; box-sizing: border-box; 
+            background: white; overflow-y: auto;
+        }
+        .essay-part:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 8px rgba(52, 152, 219, 0.2); }
+        
+        .output-box { background: #fafafa; border: 2px solid #eee; padding: 30px; border-radius: 8px; margin-top: 40px; }
+        
+        /* Preview Styling */
+        #finalEssay { 
+            font-family: 'Times New Roman', serif; 
+            font-size: 18px; color: #111; 
+            line-height: 1.8;
+        }
+        .essay-p-output { margin-bottom: 1.5em; text-indent: 40px; }
+
+        .copy-btn { display: block; width: 100%; background: var(--accent); color: white; border: none; padding: 15px; border-radius: 8px; font-size: 1.1rem; cursor: pointer; margin-top: 20px; font-weight: bold; }
+        .copy-btn:hover { background: #2980b9; }
+        
+        .transition-tip { font-style: italic; color: #d35400; font-weight: bold; margin-top: 10px; display: block; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Critical Analysis Builder</h1>
+    <p class="subtitle">Focus on your analysis. The tool will assemble your work into a cohesive essay.</p>
+
+    <!-- Paragraph 1 -->
+    <div class="section-wrapper">
+        <div class="input-area">
+            <label>Paragraph 1: Introduction</label>
+            <div class="toolbar">
+                <button onclick="execCmd('bold')"><b>B</b></button>
+                <button onclick="execCmd('italic')"><i>I</i></button>
+                <button onclick="execCmd('underline')"><u>U</u></button>
+                <select onchange="execVal('fontName', this.value)">
+                    <option value="Arial">Arial</option>
+                    <option value="Times New Roman" selected>Times New Roman</option>
+                    <option value="Georgia">Georgia</option>
+                    <option value="Courier New">Courier New</option>
+                </select>
+                <select onchange="execVal('fontSize', this.value)">
+                    <option value="3" selected>12pt</option>
+                    <option value="2">10pt</option>
+                    <option value="4">14pt</option>
+                    <option value="5">18pt</option>
+                </select>
+            </div>
+            <div class="essay-part" contenteditable="true" oninput="assembleEssay()"></div>
+        </div>
+        <div class="guidance">
+            <strong>Checklist:</strong>
+            <ul><li>Hook the reader.</li><li>One-sentence summary.</li><li>Clear Thesis Statement.</li></ul>
+        </div>
+    </div>
+
+    <!-- Paragraph 2 -->
+    <div class="section-wrapper">
+        <div class="input-area">
+            <label>Paragraph 2: Body Analysis I</label>
+            <div class="toolbar">
+                <button onclick="execCmd('bold')"><b>B</b></button>
+                <button onclick="execCmd('italic')"><i>I</i></button>
+                <button onclick="execCmd('underline')"><u>U</u></button>
+                <select onchange="execVal('fontName', this.value)">
+                    <option value="Arial">Arial</option>
+                    <option value="Times New Roman" selected>Times New Roman</option>
+                    <option value="Georgia">Georgia</option>
+                </select>
+                <select onchange="execVal('fontSize', this.value)">
+                    <option value="3" selected>12pt</option>
+                    <option value="2">10pt</option>
+                    <option value="4">14pt</option>
+                </select>
+            </div>
+            <div class="essay-part" contenteditable="true" oninput="assembleEssay()"></div>
+        </div>
+        <div class="guidance">
+            <strong>Checklist:</strong>
+            <ul><li>Main Idea & Evidence.</li><li>Deep analysis.</li><li>Link back to thesis.</li></ul>
+            <span class="transition-tip">Tip: Use "Furthermore" or "In addition."</span>
+        </div>
+    </div>
+
+    <!-- Paragraph 3 -->
+    <div class="section-wrapper">
+        <div class="input-area">
+            <label>Paragraph 3: Body Analysis II</label>
+            <div class="toolbar">
+                <button onclick="execCmd('bold')"><b>B</b></button>
+                <button onclick="execCmd('italic')"><i>I</i></button>
+                <button onclick="execCmd('underline')"><u>U</u></button>
+                <div style="flex-grow: 1;"></div>
+            </div>
+            <div class="essay-part" contenteditable="true" oninput="assembleEssay()"></div>
+        </div>
+        <div class="guidance">
+            <strong>Checklist:</strong>
+            <ul><li>Maintain logical flow.</li><li>Compare/Contrast evidence.</li></ul>
+            <span class="transition-tip">Tip: Use "Conversely" or "Similarly."</span>
+        </div>
+    </div>
+
+    <!-- Paragraph 4 -->
+    <div class="section-wrapper">
+        <div class="input-area">
+            <label>Paragraph 4: Body Analysis III</label>
+            <div class="toolbar">
+                <button onclick="execCmd('bold')"><b>B</b></button>
+                <button onclick="execCmd('italic')"><i>I</i></button>
+                <button onclick="execCmd('underline')"><u>U</u></button>
+            </div>
+            <div class="essay-part" contenteditable="true" oninput="assembleEssay()"></div>
+        </div>
+        <div class="guidance">
+            <strong>Checklist:</strong>
+            <ul><li>Final supporting point.</li><li>Synthesize with previous.</li></ul>
+            <span class="transition-tip">Tip: Use "Consequently" or "As a result."</span>
+        </div>
+    </div>
+
+    <!-- Paragraph 5 -->
+    <div class="section-wrapper">
+        <div class="input-area">
+            <label>Paragraph 5: Conclusion</label>
+            <div class="toolbar">
+                <button onclick="execCmd('bold')"><b>B</b></button>
+                <button onclick="execCmd('italic')"><i>I</i></button>
+                <button onclick="execCmd('underline')"><u>U</u></button>
+            </div>
+            <div class="essay-part" contenteditable="true" oninput="assembleEssay()"></div>
+        </div>
+        <div class="guidance">
+            <strong>Checklist:</strong>
+            <ul><li>Restate Thesis.</li><li>Synthesize main points.</li><li>Final impression.</li></ul>
+            <span class="transition-tip">Tip: Use "Ultimately" or "In essence."</span>
+        </div>
+    </div>
+
+    <div class="output-box">
+        <h3>Full Assembled Essay</h3>
+        <div id="finalEssay">Begin typing in the boxes above to see your full essay here...</div>
+        <button class="copy-btn" onclick="copyRichText()">Copy Formatted Essay to Clipboard</button>
+    </div>
+</div>
+
+<script>
+    // Formatting commands
+    function execCmd(cmd) { document.execCommand(cmd, false, null); }
+    function execVal(cmd, val) { document.execCommand(cmd, false, val); }
+
+    const editors = document.querySelectorAll('.essay-part');
+    const display = document.getElementById('finalEssay');
+
+    function assembleEssay() {
+        display.innerHTML = '';
+        let hasContent = false;
+
+        editors.forEach(editor => {
+            const content = editor.innerHTML.trim();
+            if (content !== "" && content !== "<br>") {
+                hasContent = true;
+                const p = document.createElement('div');
+                p.className = 'essay-p-output';
+                p.innerHTML = content;
+                display.appendChild(p);
+            }
+        });
+        
+        if (!hasContent) {
+            display.innerText = "Begin typing in the boxes above to see your full essay here...";
+        }
+    }
+
+    async function copyRichText() {
+        if (display.innerText.includes("Begin typing")) return;
+
+        // Use the modern Clipboard API to copy HTML (preserving bold/italics/fonts)
+        const type = "text/html";
+        const blob = new Blob([display.innerHTML], { type });
+        const data = [new ClipboardItem({ [type]: blob })];
+
+        try {
+            await navigator.clipboard.write(data);
+            alert("Formatted essay copied! Paste into Word or Google Docs to keep your formatting.");
+        } catch (err) {
+            alert("Error copying. Please select the preview text and copy manually.");
+        }
+    }
+</script>
+
+</body>
+</html>
